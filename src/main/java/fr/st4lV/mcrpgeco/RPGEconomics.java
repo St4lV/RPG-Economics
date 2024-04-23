@@ -1,6 +1,7 @@
 package fr.st4lV.mcrpgeco;
 
 import com.mojang.logging.LogUtils;
+import fr.st4lV.mcrpgeco.item.ModCreativeModTabs;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
@@ -31,6 +32,8 @@ public class RPGEconomics
     public RPGEconomics()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModCreativeModTabs.register(modEventBus);
 
         ModItems.register(modEventBus);
         // Register the commonSetup method for modloading
