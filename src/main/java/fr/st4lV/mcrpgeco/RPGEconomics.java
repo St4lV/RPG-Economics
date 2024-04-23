@@ -1,8 +1,11 @@
 package fr.st4lV.mcrpgeco;
 
 import com.mojang.logging.LogUtils;
+import fr.st4lV.mcrpgeco.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -29,6 +32,7 @@ public class RPGEconomics
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModItems.register(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -48,7 +52,11 @@ public class RPGEconomics
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+        if(event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.accept(ModItems.BRONZE_COIN);
+            event.accept(ModItems.SILVER_COIN);
+            event.accept(ModItems.GOLD_COIN);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
