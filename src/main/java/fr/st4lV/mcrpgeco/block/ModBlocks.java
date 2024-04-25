@@ -1,6 +1,7 @@
 package fr.st4lV.mcrpgeco.block;
 
 import fr.st4lV.mcrpgeco.RPGEconomics;
+import fr.st4lV.mcrpgeco.block.custom.BlockbergTerminal;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -22,7 +23,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> TEST_BLOCK = registerBlock("test_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.SMOOTH_STONE).sound(SoundType.CALCITE)));
     public static final RegistryObject<Block> BLOCKBERG_TERMINAL = registerBlock("blockberg_terminal",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.CRYING_OBSIDIAN).sound(SoundType.NETHERITE_BLOCK)));
+            () -> new BlockbergTerminal(BlockBehaviour.Properties.copy(Blocks.CRYING_OBSIDIAN).sound(SoundType.NETHERITE_BLOCK)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
