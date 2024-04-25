@@ -1,7 +1,10 @@
+
 {
-  "variants":{
-    "": {
-      "model": "mcrpgeco:block/blockberg_terminal"
-    }
+  "variants":
+  {
+    "facing=north": { "model": "mcrpgeco:block/blockberg_terminal" },
+    "facing=east": { "model": "mcrpgeco:block/blockberg_terminal", "y" : 90 },
+    "facing=south": { "model": "mcrpgeco:block/blockberg_terminal", "y": 180 },
+    "facing=west": { "model": "mcrpgeco:block/blockberg_terminal", "y" : 270 }
   }
 }

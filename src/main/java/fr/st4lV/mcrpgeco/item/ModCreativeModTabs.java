@@ -16,7 +16,7 @@ public class ModCreativeModTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, RPGEconomics.MODID);
 
     public static final RegistryObject<CreativeModeTab> MCRPGECO_TAB = CREATIVE_MODE_TABS.register("mcrpgeco_tab",
-            () -> CreativeModeTab.builder().icon(()-> new ItemStack(ModItems.BRONZE_COIN.get()))
+            () -> CreativeModeTab.builder().icon(()-> new ItemStack(ModBlocks.BLOCKBERG_TERMINAL.get()))
                     .title(Component.translatable("creativetab.mcrpgeco_tab"))
                     .displayItems((pParameters, pOutput) -> {
 

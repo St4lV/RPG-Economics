@@ -20,8 +20,12 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, RPGEconomics.MODID);
 
+    //TEST BLOCK
+
     public static final RegistryObject<Block> TEST_BLOCK = registerBlock("test_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.SMOOTH_STONE).sound(SoundType.CALCITE)));
+
+    //BLOCKBERG TERMINAL
     public static final RegistryObject<Block> BLOCKBERG_TERMINAL = registerBlock("blockberg_terminal",
             () -> new BlockbergTerminal(BlockBehaviour.Properties.copy(Blocks.CRYING_OBSIDIAN).sound(SoundType.NETHERITE_BLOCK)));
 
