@@ -10,6 +10,12 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, RPGEconomics.MODID);
+
+    //Purse
+
+    public static final RegistryObject<Item> PURSE = ITEMS.register("purse",
+            () -> new Item(new Item.Properties()));
+
     //Coins
 
     public static final RegistryObject<Item> BRONZE_COIN = ITEMS.register("bronze_coin",

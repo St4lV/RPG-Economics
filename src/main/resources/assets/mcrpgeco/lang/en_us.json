@@ -2,5 +2,10 @@
   "item.mcrpgeco.bronze_coin": "Bronze Coin",
   "item.mcrpgeco.silver_coin": "Silver Coin",
   "item.mcrpgeco.gold_coin": "Gold Coin",
+  "item.mcrpgeco.purse": "Purse",
+
+  "block.mcrpgeco.test_block": "Test Block",
+  "block.mcrpgeco.blockberg_terminal": "Blockberg Terminal",
+
   "creativetab.mcrpgeco_tab": "RPG Economics"
 }

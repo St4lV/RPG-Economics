@@ -1,6 +1,7 @@
 package fr.st4lV.mcrpgeco;
 
 import com.mojang.logging.LogUtils;
+import fr.st4lV.mcrpgeco.block.ModBlocks;
 import fr.st4lV.mcrpgeco.item.ModCreativeModTabs;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import net.minecraft.client.Minecraft;
@@ -36,6 +37,7 @@ public class RPGEconomics
         ModCreativeModTabs.register(modEventBus);
 
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -59,6 +61,13 @@ public class RPGEconomics
             event.accept(ModItems.BRONZE_COIN);
             event.accept(ModItems.SILVER_COIN);
             event.accept(ModItems.GOLD_COIN);
+            event.accept(ModItems.PURSE);
+        }
+        if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+            event.accept(ModBlocks.TEST_BLOCK);
+        }
+        if(event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+            event.accept(ModBlocks.BLOCKBERG_TERMINAL);
         }
     }
 

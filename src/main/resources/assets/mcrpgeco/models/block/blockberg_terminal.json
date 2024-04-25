@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "particles": "mcrpgeco:blocks/gold_block",
+    "north": "mcrpgeco:block/blockberg_terminal/blockberg_terminal_face",
+    "east": "mcrpgeco:block/blockberg_terminal/blockberg_terminal_east",
+    "west": "mcrpgeco:block/blockberg_terminal/blockberg_terminal_west",
+    "top": "mcrpgeco:block/blockberg_terminal/blockberg_terminal_top",
+    "bottom": "mcrpgeco:block/blockberg_terminal/blockberg_terminal_bottom",
+    "south": "mcrpgeco:block/blockberg_terminal/blockberg_terminal_back"
+  }
+}
