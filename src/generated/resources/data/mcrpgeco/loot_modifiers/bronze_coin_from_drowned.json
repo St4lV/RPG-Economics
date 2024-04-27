@@ -3,8 +3,8 @@
   "conditions": [
     {
       "condition": "forge:loot_table_id",
-      "loot_table_id": "minecraft:chests/jungle_pyramid"
+      "loot_table_id": "minecraft:entities/drowned"
     }
   ],
-  "item": "mcrpgeco:silver_coin"
+  "item": "mcrpgeco:bronze_coin"
 }
