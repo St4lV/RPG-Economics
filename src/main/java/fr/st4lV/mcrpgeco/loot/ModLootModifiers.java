@@ -1,4 +1,4 @@
-package fr.st4lV.mcrpgeco.datagen.loot;
+package fr.st4lV.mcrpgeco.loot;
 
 import com.mojang.serialization.Codec;
 import fr.st4lV.mcrpgeco.RPGEconomics;

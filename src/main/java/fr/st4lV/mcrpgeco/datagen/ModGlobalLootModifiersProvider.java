@@ -2,8 +2,8 @@ package fr.st4lV.mcrpgeco.datagen;
 
 import fr.st4lV.mcrpgeco.RPGEconomics;
 import fr.st4lV.mcrpgeco.item.ModItems;
-import fr.st4lV.mcrpgeco.datagen.loot.AddItemModifier;
-import fr.st4lV.mcrpgeco.datagen.loot.AddSusSandItemModifier;
+import fr.st4lV.mcrpgeco.loot.AddItemModifier;
+import fr.st4lV.mcrpgeco.loot.AddSusSandItemModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
