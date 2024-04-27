@@ -3,5 +3,7 @@
   "item.mcrpgeco.silver_coin": "Pièce d'Argent",
   "item.mcrpgeco.gold_coin": "Pièce d'Or",
 
-  "block.mcrpgeco.blockberg_terminal": "Terminal Blockberg"
+  "block.mcrpgeco.blockberg_terminal": "Terminal Blockberg",
+
+  "entity.minecraft.villager.mcrpgeco.stocktrader": "Négociant d'Actions"
 }

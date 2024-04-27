@@ -5,6 +5,7 @@ import fr.st4lV.mcrpgeco.block.ModBlocks;
 import fr.st4lV.mcrpgeco.item.ModCreativeModTabs;
 import fr.st4lV.mcrpgeco.item.ModItems;
 
+import fr.st4lV.mcrpgeco.villager.ModVillagers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -38,6 +39,8 @@ public class RPGEconomics
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModVillagers.register(modEventBus);
+
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
