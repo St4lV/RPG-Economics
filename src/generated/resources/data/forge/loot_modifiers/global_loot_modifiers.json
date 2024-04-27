@@ -1,0 +1,12 @@
+{
+  "entries": [
+    "mcrpgeco:bronze_coin_from_skeleton",
+    "mcrpgeco:bronze_coin_from_spider",
+    "mcrpgeco:bronze_coin_from_creeper",
+    "mcrpgeco:bronze_coin_from_zombie",
+    "mcrpgeco:gold_coin_from_suspicious_sand",
+    "mcrpgeco:silver_coin_from_desert_pyramid",
+    "mcrpgeco:silver_coin_from_jungle_temples"
+  ],
+  "replace": false
+}
