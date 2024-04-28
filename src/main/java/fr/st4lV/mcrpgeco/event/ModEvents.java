@@ -29,7 +29,7 @@ public class ModEvents {
 
             trades.get(1).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(ModItems.BRONZE_COIN.get(), 64),
-                    new ItemStack(ModItems.BRONZE_COIN.get(), 30),
+                    new ItemStack(ModItems.BRONZE_COIN.get(), 41),
                     new ItemStack(ModItems.SILVER_COIN.get(), 1),
                     10, 1, 0.02f));
 
@@ -46,7 +46,7 @@ public class ModEvents {
 
             trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(ModItems.SILVER_COIN.get(), 64),
-                    new ItemStack(ModItems.SILVER_COIN.get(), 30),
+                    new ItemStack(ModItems.SILVER_COIN.get(), 41),
                     new ItemStack(ModItems.GOLD_COIN.get(), 1),
                     10, 5, 0.02f));
 

@@ -30,8 +30,17 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         add("bronze_coin_from_zombie", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/zombie")).build() }, ModItems.BRONZE_COIN.get()));
 
+        add("bronze_coin_from_zombie_villager", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/zombie_villager")).build() }, ModItems.BRONZE_COIN.get()));
+
+        add("bronze_coin_from_zombified_piglin", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/zombified_piglin")).build() }, ModItems.BRONZE_COIN.get()));
+
         add("bronze_coin_from_drowned", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/drowned")).build() }, ModItems.BRONZE_COIN.get()));
+
+        add("bronze_coin_from_husk", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/husk")).build() }, ModItems.BRONZE_COIN.get()));
 
         add("bronze_coin_from_spider", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/spider")).build() }, ModItems.BRONZE_COIN.get()));
@@ -42,6 +51,9 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         add("bronze_coin_from_skeleton", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/skeleton")).build() }, ModItems.BRONZE_COIN.get()));
 
+        add("bronze_coin_from_stray", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/stray")).build() }, ModItems.BRONZE_COIN.get()));
+
         add("bronze_coin_from_pillager", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/pillager")).build() }, ModItems.BRONZE_COIN.get()));
 
@@ -51,17 +63,20 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         add("bronze_coin_from_silverfish", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/silverfish")).build() }, ModItems.BRONZE_COIN.get()));
 
-        add("bronze_coin_from_zombified_piglin", new AddItemModifier(new LootItemCondition[] {
-                new LootTableIdCondition.Builder(new ResourceLocation("entities/zombified_piglin")).build() }, ModItems.BRONZE_COIN.get()));
-
         add("bronze_coin_from_blaze", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/blaze")).build() }, ModItems.BRONZE_COIN.get()));
 
         add("bronze_coin_from_endermite", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/endermite")).build() }, ModItems.BRONZE_COIN.get()));
 
-        add("bronze_coin_from_guardian", new AddItemModifier(new LootItemCondition[] {
-                new LootTableIdCondition.Builder(new ResourceLocation("entities/guardian")).build() }, ModItems.BRONZE_COIN.get()));
+        add("bronze_coin_from_magma_cube", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/magma_cube")).build() }, ModItems.BRONZE_COIN.get()));
+
+        add("bronze_coin_from_slime", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/slime")).build() }, ModItems.BRONZE_COIN.get()));
+
+        add("bronze_coin_from_phantom", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/phantom")).build() }, ModItems.BRONZE_COIN.get()));
 
             //CHESTS
 
@@ -80,14 +95,14 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         add("silver_coin_from_enderman", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/enderman")).build() }, ModItems.SILVER_COIN.get()));
 
-        add("silver_coin_from_blaze", new AddItemModifier(new LootItemCondition[] {
-                new LootTableIdCondition.Builder(new ResourceLocation("entities/blaze")).build() }, ModItems.SILVER_COIN.get()));
-
         add("silver_coin_from_wither_skeleton", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/wither_skeleton")).build() }, ModItems.SILVER_COIN.get()));
 
         add("silver_coin_from_vindicator", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/vindicator")).build() }, ModItems.SILVER_COIN.get()));
+
+        add("silver_coin_from_ravager", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/ravager")).build() }, ModItems.SILVER_COIN.get()));
 
         add("silver_coin_from_ghast", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/ghast")).build() }, ModItems.SILVER_COIN.get()));
@@ -98,7 +113,14 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         add("silver_coin_from_hoglin", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("entities/hoglin")).build() }, ModItems.SILVER_COIN.get()));
 
-            //CHESTS
+        add("silver_coin_from_zoglin", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/zoglin")).build() }, ModItems.SILVER_COIN.get()));
+
+        add("bronze_coin_from_guardian", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(new ResourceLocation("entities/guardian")).build() }, ModItems.BRONZE_COIN.get()));
+
+
+        //CHESTS
 
         add("silver_coin_from_jungle_temples", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(new ResourceLocation("chests/jungle_pyramid")).build() }, ModItems.SILVER_COIN.get()));

@@ -3,8 +3,8 @@
   "conditions": [
     {
       "condition": "forge:loot_table_id",
-      "loot_table_id": "minecraft:entities/blaze"
+      "loot_table_id": "minecraft:entities/stray"
     }
   ],
-  "item": "mcrpgeco:silver_coin"
+  "item": "mcrpgeco:bronze_coin"
 }
