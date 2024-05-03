@@ -332,7 +332,27 @@
         "projection": "rigid"
       },
 
-      "weight": 2
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "mcrpgeco:village/plains/houses/plains_stocktrader_house_2",
+        "processors": "minecraft:empty",
+        "projection": "rigid"
+      },
+
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "mcrpgeco:village/plains/houses/plains_stocktrader_house_3",
+        "processors": "minecraft:empty",
+        "projection": "rigid"
+      },
+
+      "weight": 6
     },
     {
       "element": {

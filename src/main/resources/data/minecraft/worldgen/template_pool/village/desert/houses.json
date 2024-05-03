@@ -261,7 +261,37 @@
         "projection": "rigid"
       },
 
-      "weight": 2
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "mcrpgeco:village/desert/houses/desert_stocktrader_house_2",
+        "processors": "minecraft:empty",
+        "projection": "rigid"
+      },
+
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "mcrpgeco:village/desert/houses/desert_stocktrader_house_3",
+        "processors": "minecraft:empty",
+        "projection": "rigid"
+      },
+
+      "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "minecraft:legacy_single_pool_element",
+        "location": "mcrpgeco:village/desert/houses/desert_stocktrader_house_4",
+        "processors": "minecraft:empty",
+        "projection": "rigid"
+      },
+
+      "weight": 1
     },
     {
       "element": {
