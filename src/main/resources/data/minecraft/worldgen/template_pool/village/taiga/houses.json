@@ -251,7 +251,7 @@
         "projection": "rigid"
       },
 
-      "weight": 2
+      "weight": 20
     },
     {
       "element": {
