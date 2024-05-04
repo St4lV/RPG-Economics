@@ -1,11 +1,11 @@
 package fr.st4lV.mcrpgeco.block.custom;
 
 import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
-
 import fr.st4lV.mcrpgeco.block.entity.ModBlockEntities;
+import fr.st4lV.mcrpgeco.util.TickableBlockEntity;
+import fr.st4lV.mcrpgeco.client.ClientHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -22,8 +22,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
-
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS;
@@ -35,36 +36,31 @@ public class BlockbergTerminal extends HorizontalDirectionalBlock implements Ent
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new BlockbergTerminalBlockEntity(pPos, pState);
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+        return ModBlockEntities.BLOCKBERG_TERMINAL_BE.get().create(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
+        return TickableBlockEntity.getTickerHelper(level);
     }
 
     @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        if (pState.getBlock() != pNewState.getBlock()) {
-            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof BlockbergTerminalBlockEntity) {
-                ((BlockbergTerminalBlockEntity) blockEntity).drops();
-            }
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
+        if(hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
+        if(!pLevel.isClientSide()) return InteractionResult.SUCCESS;
+
+        BlockEntity be = pLevel.getBlockEntity(pPos);
+        if(be instanceof BlockbergTerminalBlockEntity) {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHooks.openExampleBlockScreen(pPos));
+
+            pLevel.playSound(pPlayer, pPos, SoundEvents.NOTE_BLOCK_BIT.get(), SoundSource.BLOCKS, 1f, 5f);
+
+            return InteractionResult.SUCCESS;
         }
 
-        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-    }
-
-
-    @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        pLevel.playSound(pPlayer, pPos, SoundEvents.NOTE_BLOCK_BIT.get(), SoundSource.BLOCKS, 1f, 5f);
-        if (!pLevel.isClientSide()) {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if (entity instanceof BlockbergTerminalBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer) pPlayer), (BlockbergTerminalBlockEntity) entity, pPos);
-            } else {
-                throw new IllegalStateException("Our Container provider is missing!");
-            }
-        }
-
-        return InteractionResult.sidedSuccess(pLevel.isClientSide());
+        return InteractionResult.FAIL;
     }
 
     @Override
@@ -79,24 +75,4 @@ public class BlockbergTerminal extends HorizontalDirectionalBlock implements Ent
         Direction direction = context.getHorizontalDirection().getOpposite();
         return this.defaultBlockState().setValue(FACING, direction);
     }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        if (world.isClientSide()) {
-            return null;
-        }
-        if (type == ModBlockEntities.BLOCKBERG_BE.get()) {
-            return (world1, pos, state1, blockEntity) -> {
-                if (blockEntity instanceof BlockbergTerminalBlockEntity) {
-                    ((BlockbergTerminalBlockEntity) blockEntity).tick(world1, pos, state1);
-                }
-            };
-        }
-
-        return null;
-    }
-
-
 }
-

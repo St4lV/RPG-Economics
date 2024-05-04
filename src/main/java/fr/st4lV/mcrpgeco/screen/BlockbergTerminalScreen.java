@@ -1,52 +1,219 @@
 package fr.st4lV.mcrpgeco.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import fr.st4lV.mcrpgeco.RPGEconomics;
+import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.NotNull;
 
-public class BlockbergTerminalScreen extends AbstractContainerScreen<BlockbergTerminalMenu> {
+public class BlockbergTerminalScreen extends Screen {
+    private static final Component TITLE =
+            Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal");
+    private static final Component ITEM_BUY_BUTTON =
+            Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.buy_button");
+    private static final Component ITEM_SELL_BUTTON =
+            Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.sell_button");
+
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(RPGEconomics.MODID, "textures/gui/blockberg_terminal_gui.png");
 
-    public BlockbergTerminalScreen(BlockbergTerminalMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
-        super(pMenu, pPlayerInventory, pTitle);
+    private final BlockPos position;
+    private final int imageWidth, imageHeight;
+
+    private BlockbergTerminalBlockEntity blockEntity;
+    private int leftPos, topPos;
+
+    private Button ItemBuyButton;
+    private Button ItemSellButton;
+
+    public BlockbergTerminalScreen(BlockPos position) {
+        super(TITLE);
+
+        this.position = position;
+        this.imageWidth = 176;
+        this.imageHeight = 229;
     }
 
     @Override
     protected void init() {
         super.init();
-        this.inventoryLabelY = 10000;
-        this.titleLabelY = 10000;
-    }
 
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
+        this.leftPos = (this.width - this.imageWidth) / 2;
+        this.topPos = (this.height - this.imageHeight) / 2;
 
-        guiGraphics.blit(TEXTURE, x, y , 0, 0, imageWidth, imageHeight);
+        if(this.minecraft == null) return;
+        Level level = this.minecraft.level;
+        if(level == null) return;
 
-        renderProgressArrow(guiGraphics, x, y);
-    }
-
-    private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
-        if(menu.isCrafting()) {
-            guiGraphics.blit(TEXTURE, x + 85, y + 12, 176, 0, 8, menu.getScaledProgress());
+        BlockEntity be = level.getBlockEntity(this.position);
+        if(be instanceof BlockbergTerminalBlockEntity blockEntity) {
+            this.blockEntity = blockEntity;
+        } else {
+            System.err.printf("BlockEntity at %s is not of type BlockbergTerminalBlockEntity!\n", this.position);
+            return;
         }
+
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem1BuyButton)
+                        .bounds(this.leftPos + 7, this.topPos + 35, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem1SellButton)
+                        .bounds(this.leftPos + 33, this.topPos + 35, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
+
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem2BuyButton)
+                        .bounds(this.leftPos + 61, this.topPos + 35, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem2SellButton)
+                        .bounds(this.leftPos + 88, this.topPos + 35, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem2BuyButton)
+                        .bounds(this.leftPos + 115, this.topPos + 35, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem2SellButton)
+                        .bounds(this.leftPos + 142, this.topPos + 35, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
+
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem1BuyButton)
+                        .bounds(this.leftPos + 7, this.topPos + 71, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem1SellButton)
+                        .bounds(this.leftPos + 33, this.topPos + 71, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
+
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem2BuyButton)
+                        .bounds(this.leftPos + 61, this.topPos + 71, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem2SellButton)
+                        .bounds(this.leftPos + 88, this.topPos + 71, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem2BuyButton)
+                        .bounds(this.leftPos + 115, this.topPos + 71, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem2SellButton)
+                        .bounds(this.leftPos + 142, this.topPos + 71, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
+
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem1BuyButton)
+                        .bounds(this.leftPos + 7, this.topPos + 107, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem1SellButton)
+                        .bounds(this.leftPos + 33, this.topPos + 107, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
+
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem2BuyButton)
+                        .bounds(this.leftPos + 61, this.topPos + 107, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem2SellButton)
+                        .bounds(this.leftPos + 88, this.topPos + 107, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
+        this.ItemBuyButton = addRenderableWidget(
+                Button.builder(ITEM_BUY_BUTTON, this::handleItem2BuyButton)
+                        .bounds(this.leftPos + 115, this.topPos + 107, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .build()
+        );
+
+        this.ItemSellButton = addRenderableWidget(
+                Button.builder(ITEM_SELL_BUTTON, this::handleItem2SellButton)
+                        .bounds(this.leftPos + 142, this.topPos + 107, 27, 17)
+                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .build()
+        );
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        renderBackground(guiGraphics);
-        super.render(guiGraphics, mouseX, mouseY, delta);
-        renderTooltip(guiGraphics, mouseX, mouseY);
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(graphics);
+        graphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+
+        graphics.drawString(this.font,
+                TITLE,
+                this.leftPos + 8,
+                this.topPos + 8,
+                0x404040,
+                false);
+
+    }
+
+    private void handleItem1BuyButton(Button button) {
+        // logic here
+    }
+    private void handleItem1SellButton(Button button) {
+        // logic here
+    }
+    private void handleItem2BuyButton(Button button) {
+        // logic here
+    }
+    private void handleItem2SellButton(Button button) {
+        // logic here
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }

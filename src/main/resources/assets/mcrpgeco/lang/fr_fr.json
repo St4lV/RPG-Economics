@@ -1,9 +1,16 @@
 {
+  "creativetab.mcrpgeco_tab": "RPG Economics",
+
   "item.mcrpgeco.bronze_coin": "Pièce de Bronze",
   "item.mcrpgeco.silver_coin": "Pièce d'Argent",
   "item.mcrpgeco.gold_coin": "Pièce d'Or",
+  "item.mcrpgeco.purse": "Purse",
 
   "block.mcrpgeco.blockberg_terminal": "Terminal Blockberg",
+
+  "gui.mcrpgeco.blockberg_terminal.button.buy_button": "Achat",
+  "gui.mcrpgeco.blockberg_terminal.button.sell_button": "Vente",
+  "gui.mcrpgeco.blockberg_terminal": "Blockberg OS 0.1.0",
 
   "entity.minecraft.villager.mcrpgeco.stocktrader": "Négociant d'Actions"
 }

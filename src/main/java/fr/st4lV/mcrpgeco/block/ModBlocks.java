@@ -2,7 +2,9 @@ package fr.st4lV.mcrpgeco.block;
 
 import fr.st4lV.mcrpgeco.RPGEconomics;
 import fr.st4lV.mcrpgeco.block.custom.BlockbergTerminal;
+//import fr.st4lV.mcrpgeco.block.custom.ScreenBlock;
 import fr.st4lV.mcrpgeco.item.ModItems;
+import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

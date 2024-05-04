@@ -6,12 +6,9 @@ import fr.st4lV.mcrpgeco.block.entity.ModBlockEntities;
 import fr.st4lV.mcrpgeco.item.ModCreativeModTabs;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import fr.st4lV.mcrpgeco.loot.ModLootModifiers;
-import fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreen;
-import fr.st4lV.mcrpgeco.screen.ModMenuTypes;
 import fr.st4lV.mcrpgeco.villager.ModVillagers;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -49,9 +46,7 @@ public class RPGEconomics
         ModVillagers.register(modEventBus);
 
         ModLootModifiers.register(modEventBus);
-
-        ModMenuTypes.register(modEventBus);
-
+        
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -103,7 +98,6 @@ public class RPGEconomics
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-            MenuScreens.register(ModMenuTypes.BLOCKBERG_TERMINAL_MENU.get(), BlockbergTerminalScreen::new);
         }
     }
 }

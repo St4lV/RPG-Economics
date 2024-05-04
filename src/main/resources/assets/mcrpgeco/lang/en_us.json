@@ -9,5 +9,9 @@
 
   "creativetab.mcrpgeco_tab": "RPG Economics",
 
+  "gui.mcrpgeco.blockberg_terminal.button.buy_button": "Buy",
+  "gui.mcrpgeco.blockberg_terminal.button.sell_button": "Sell",
+  "gui.mcrpgeco.blockberg_terminal": "Blockberg OS 0.1.0",
+
   "entity.minecraft.villager.mcrpgeco.stocktrader": "Stock Trader"
 }
