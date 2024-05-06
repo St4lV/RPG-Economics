@@ -5,15 +5,26 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import fr.st4lV.mcrpgeco.block.ModBlocks;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import fr.st4lV.mcrpgeco.villager.ModVillagers;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.OutgoingChatMessage;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.storage.PlayerDataStorage;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import org.jetbrains.annotations.NotNull;
+
 
 import java.util.List;
+
 
 @Mod.EventBusSubscriber(modid = RPGEconomics.MODID)
 public class ModEvents {
@@ -58,6 +69,31 @@ public class ModEvents {
                     new ItemStack(ModItems.GOLD_COIN.get(), 6),
                     new ItemStack(ModBlocks.BLOCKBERG_TERMINAL.get(), 1),
                     3, 20, 0.02f));
+            }
         }
     }
+/*@SubscribeEvent
+public static void onPlayerLoadFromFile(PlayerEvent.LoadFromFile event) {
+    CompoundTag playerData = event.getPlayerDirectory(UUID.fromString(Player));
+
+    // Add the "money" entry if it doesn't exist
+    if (!playerData.contains("money")) {
+        playerData.putInt("money", 0); // Initialize money with default value
+    }
 }
+
+@SubscribeEvent
+public static void onPlayerSave(PlayerEvent.SaveToFile event) {
+    ServerPlayer player = (ServerPlayer) event.getPlayer();
+    PlayerDataStorage playerDataStorage = player.getLevel().getDataStorage().get(PlayerDataStorage::new);
+    CompoundTag playerData = playerDataStorage.load(player);
+
+    // Example: modify the money value, you can replace this logic with your own
+    int currentValue = playerData.getInt("money");
+    playerData.putInt("money", currentValue + 1);
+
+    playerDataStorage.save(player, playerData); // Save the modified data
+}*/
+
+
+

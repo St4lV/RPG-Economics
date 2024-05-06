@@ -2,6 +2,8 @@ package fr.st4lV.mcrpgeco.screen;
 
 import fr.st4lV.mcrpgeco.RPGEconomics;
 import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
+import fr.st4lV.mcrpgeco.core.MarketCalculs;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -200,11 +202,17 @@ public class BlockbergTerminalScreen extends Screen {
     }
 
     private void handleItem1BuyButton(Button button) {
-        // logic here
+        MarketCalculs marketCalculs = MarketCalculs.getInstance();
+        marketCalculs.updateMarketValues();
+        marketCalculs.buyItem();
     }
+
     private void handleItem1SellButton(Button button) {
-        // logic here
+        MarketCalculs marketCalculs = MarketCalculs.getInstance();
+        marketCalculs.updateMarketValues();
+        marketCalculs.sellItem();
     }
+
     private void handleItem2BuyButton(Button button) {
         // logic here
     }

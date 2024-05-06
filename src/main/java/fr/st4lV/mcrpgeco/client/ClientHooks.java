@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 
 public class ClientHooks {
-    public static void openExampleBlockScreen(BlockPos pos) {
+    public static void openBlockbergTerminalScreen(BlockPos pos) {
         Minecraft.getInstance().setScreen(new BlockbergTerminalScreen(pos));
     }
 }

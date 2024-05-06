@@ -1,12 +1,31 @@
 package fr.st4lV.mcrpgeco;
 
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.storage.LevelResource;
+import net.minecraft.nbt.CompoundTag;
+//import net.minecraft.world.level.Ser
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraft.server.level.ServerPlayer;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.UUID;
 import com.mojang.logging.LogUtils;
 import fr.st4lV.mcrpgeco.block.ModBlocks;
 import fr.st4lV.mcrpgeco.block.entity.ModBlockEntities;
+import fr.st4lV.mcrpgeco.core.MarketCalculs;
 import fr.st4lV.mcrpgeco.item.ModCreativeModTabs;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import fr.st4lV.mcrpgeco.loot.ModLootModifiers;
 import fr.st4lV.mcrpgeco.villager.ModVillagers;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,6 +41,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.UUID;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(RPGEconomics.MODID)
@@ -86,6 +110,8 @@ public class RPGEconomics
     {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+        MarketCalculs marketCalculs = MarketCalculs.getInstance();
+        marketCalculs.initValue();
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
@@ -100,4 +126,50 @@ public class RPGEconomics
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
     }
+    /*@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static class PlayerEvents {
+
+        @SubscribeEvent
+        public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+            // Get the player
+            ServerPlayer player = (ServerPlayer) event.getPlayer();
+
+            // Get the player's world
+            ServerWorld world = player.getLevel();
+
+            // Get the directory for player data within the world's save folder
+            File saveFolder = world.getServer().getWorldPath(LevelResource.PLAYER_DATA_DIR).toFile();
+            File playerDataFolder = new File(saveFolder, "playerdata");
+
+            // Construct the file path to the player's data file
+            UUID playerUUID = player.getUUID();
+            File playerDataFile = new File(playerDataFolder, playerUUID.toString() + ".dat");
+
+            // Access the player's persistent data using the constructed path
+            CompoundTag playerData = null;
+            try {
+                // Check if the player data file exists before reading it
+                if (playerDataFile.exists()) {
+                    playerData = net.minecraft.nbt.NbtIo.readCompressed(new FileInputStream(playerDataFile));
+                } else {
+                    // If the player data file doesn't exist, create a new CompoundTag
+                    playerData = new CompoundTag();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Now you can access the player's data
+            if (playerData != null && !playerData.contains("money")) {
+                // If the "money" tag doesn't exist, create it with an initial value of 0
+                playerData.putInt("money", 0);
+                // Save the updated data back to the file
+                try {
+                    net.minecraft.nbt.NbtIo.writeCompressed(playerData, new FileOutputStream(playerDataFile));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }*/
 }

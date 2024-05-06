@@ -53,7 +53,7 @@ public class BlockbergTerminal extends HorizontalDirectionalBlock implements Ent
 
         BlockEntity be = pLevel.getBlockEntity(pPos);
         if(be instanceof BlockbergTerminalBlockEntity) {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHooks.openExampleBlockScreen(pPos));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHooks.openBlockbergTerminalScreen(pPos));
 
             pLevel.playSound(pPlayer, pPos, SoundEvents.NOTE_BLOCK_BIT.get(), SoundSource.BLOCKS, 1f, 5f);
 
