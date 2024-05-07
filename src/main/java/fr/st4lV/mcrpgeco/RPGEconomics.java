@@ -1,20 +1,11 @@
 package fr.st4lV.mcrpgeco;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.storage.LevelResource;
-import net.minecraft.nbt.CompoundTag;
 //import net.minecraft.world.level.Ser
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreen;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraft.server.level.ServerPlayer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.UUID;
-import com.mojang.logging.LogUtils;
+        import com.mojang.logging.LogUtils;
 import fr.st4lV.mcrpgeco.block.ModBlocks;
 import fr.st4lV.mcrpgeco.block.entity.ModBlockEntities;
 import fr.st4lV.mcrpgeco.core.MarketCalculs;
@@ -22,12 +13,8 @@ import fr.st4lV.mcrpgeco.item.ModCreativeModTabs;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import fr.st4lV.mcrpgeco.loot.ModLootModifiers;
 import fr.st4lV.mcrpgeco.villager.ModVillagers;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtIo;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 
-import net.minecraft.client.Minecraft;
+        import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -35,17 +22,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+        import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.UUID;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(RPGEconomics.MODID)
@@ -106,12 +86,18 @@ public class RPGEconomics
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
+    public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+
+        // Accessing MarketCalculs
         MarketCalculs marketCalculs = MarketCalculs.getInstance();
         marketCalculs.initValue();
+        marketCalculs.updateMarketValues();
+
+        // Accessing BlockbergTerminalScreen
+        BlockbergTerminalScreen blockbergTerminalScreen = BlockbergTerminalScreen.getInstance();
+        blockbergTerminalScreen.updatePriceValues();
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

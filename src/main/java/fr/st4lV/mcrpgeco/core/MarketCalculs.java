@@ -1,10 +1,7 @@
 package fr.st4lV.mcrpgeco.core;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 
 public class MarketCalculs {
 
@@ -23,13 +20,14 @@ public class MarketCalculs {
 
     //init:
 
-    private int gcBuy, scBuy, bcBuy, gcSell, scSell, bcSell, gcPlayer, scPlayer, bcPlayer, InitPrice, InitPlayerAccount, Qmax, Qact, Qratio, PlayerAccount, updatedPlayerAccount, QstartRatio, ActPrice;
+    private int InitPrice, InitPlayerAccount, Qmax, Qact, Qratio, PlayerAccount, updatedPlayerAccount, QstartRatio, ActPrice;
     private double buyPrice, sellPrice;
+    public int gcPlayer, scPlayer, bcPlayer, gcBuy, scBuy, bcBuy, gcSell, scSell, bcSell;
     public void initValue(/*ServerPlayer player*/) {
 
         //!! remind !! : 101010 is 10gc 10sc 10bc
         //has to be >1000 for better results
-        InitPrice = 10500;
+        InitPrice = 10000;
 
         //CompoundTag playerData = player.getPersistentData();
         InitPlayerAccount = 69420;//playerData.getInt("money");
