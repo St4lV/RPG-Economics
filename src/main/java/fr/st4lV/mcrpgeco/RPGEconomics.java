@@ -1,11 +1,15 @@
 package fr.st4lV.mcrpgeco;
 
 //import net.minecraft.world.level.Ser
+import fr.st4lV.mcrpgeco.config.MarketItem;
 import fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreen;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-        import com.mojang.logging.LogUtils;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
+import com.mojang.logging.LogUtils;
+
 import fr.st4lV.mcrpgeco.block.ModBlocks;
 import fr.st4lV.mcrpgeco.block.entity.ModBlockEntities;
 import fr.st4lV.mcrpgeco.core.MarketCalculs;
@@ -13,8 +17,9 @@ import fr.st4lV.mcrpgeco.item.ModCreativeModTabs;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import fr.st4lV.mcrpgeco.loot.ModLootModifiers;
 import fr.st4lV.mcrpgeco.villager.ModVillagers;
+import fr.st4lV.mcrpgeco.config.Config;
 
-        import net.minecraft.client.Minecraft;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,6 +48,8 @@ public class RPGEconomics
 
         ModCreativeModTabs.register(modEventBus);
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, fr.st4lV.mcrpgeco.config.Config.CONFIG);
+
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
@@ -68,13 +75,20 @@ public class RPGEconomics
 
     }
 
+    private static void setup(FMLCommonSetupEvent event) {
+
+        fr.st4lV.mcrpgeco.config.Config.registerConfig();
+
+    }
+
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+
+            event.accept(ModItems.PURSE);
             event.accept(ModItems.BRONZE_COIN);
             event.accept(ModItems.SILVER_COIN);
             event.accept(ModItems.GOLD_COIN);
-            event.accept(ModItems.PURSE);
         }
         if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(ModBlocks.TEST_BLOCK);
@@ -91,8 +105,9 @@ public class RPGEconomics
         LOGGER.info("HELLO from server starting");
 
         // Accessing MarketCalculs
+        MarketItem marketItem = MarketItem.getInstance();
         MarketCalculs marketCalculs = MarketCalculs.getInstance();
-        marketCalculs.initValue();
+        marketCalculs.initValue(marketItem);
         marketCalculs.updateMarketValues();
 
         // Accessing BlockbergTerminalScreen

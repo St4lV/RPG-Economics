@@ -1,5 +1,6 @@
 package fr.st4lV.mcrpgeco.core;
 
+import fr.st4lV.mcrpgeco.config.MarketItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
@@ -23,29 +24,17 @@ public class MarketCalculs {
     private int InitPrice, InitPlayerAccount, Qmax, Qact, Qratio, PlayerAccount, updatedPlayerAccount, QstartRatio, ActPrice;
     private double buyPrice, sellPrice;
     public int gcPlayer, scPlayer, bcPlayer, gcBuy, scBuy, bcBuy, gcSell, scSell, bcSell;
-    public void initValue(/*ServerPlayer player*/) {
+    public void initValue(/*ServerPlayer player*/MarketItem marketItem) {
 
-        //!! remind !! : 101010 is 10gc 10sc 10bc
-        //has to be >1000 for better results
-        InitPrice = 10000;
-
-        //CompoundTag playerData = player.getPersistentData();
-        InitPlayerAccount = 69420;//playerData.getInt("money");
-
-
-
-        // value : positive integer >= 0 : Start money in player account
-        //Max quantity available in market
-        Qmax = 512;
-
-        PlayerAccount = InitPlayerAccount;
-        updatedPlayerAccount = PlayerAccount;
-
-        // RANGE : 1 - 100 ! default 85 : Quantity Available in market at init
-        QstartRatio = 85;
+        InitPrice = marketItem.getPrice();
+        Qmax = marketItem.getQmax();
+        QstartRatio = marketItem.getQStartRatio();
         Qratio = QstartRatio;
         Qact = Qmax * QstartRatio / 100;
         ActPrice = InitPrice;
+        InitPlayerAccount = 69420;
+        PlayerAccount = InitPlayerAccount;
+        updatedPlayerAccount = PlayerAccount;
     }
 
 
@@ -160,7 +149,7 @@ public class MarketCalculs {
 
 
             //Successful sell
-        } else if (QJoueur >= 0 && Qact <= Qmax) {
+        } else if (QJoueur >= 1 && Qact <= Qmax) {
             System.out.println("Successfully sold for: " + gcSell + "\u001B[93m gold coins \u001B[0m " + scSell + "\u001B[37m silver coins \u001B[0m " + bcSell + "\u001B[33m bronze coins \u001B[0m ");
             String sell_successful = "§a✔ §d⇈ §f" +
                     (gcSell != 0 ? gcSell + " §e⓪ §f" : "") +

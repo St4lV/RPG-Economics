@@ -50,7 +50,7 @@ public class BlockbergTerminalScreen extends Screen {
         Component buyComponent = Component.translatable(/*"§d⇈*/ "§f" +
                 (gcBuy != 0 ? gcBuy + "§e§l⌾ §f" : "") +
                 (gcBuy < 10000 ? (scBuy!= 0  ? scBuy + "§7§l⌾ §f" : "") : "") +
-                (gcBuy < 100 ? bcBuy + "§6§l⌾" : ""));
+                (gcBuy < 100 ? (bcBuy != 0 ? bcBuy + "§6§l⌾" : "") : ""));
 
         Component sellComponent = Component.translatable(/*"§b⇊*/"§f" +
                 (gcSell != 0 ? gcSell + "§e§l⌾ §f" : "") +
