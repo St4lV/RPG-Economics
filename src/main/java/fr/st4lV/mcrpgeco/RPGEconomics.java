@@ -17,7 +17,6 @@ import fr.st4lV.mcrpgeco.item.ModCreativeModTabs;
 import fr.st4lV.mcrpgeco.item.ModItems;
 import fr.st4lV.mcrpgeco.loot.ModLootModifiers;
 import fr.st4lV.mcrpgeco.villager.ModVillagers;
-import fr.st4lV.mcrpgeco.config.Config;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
@@ -104,13 +103,14 @@ public class RPGEconomics
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
 
-        // Accessing MarketCalculs
+        fr.st4lV.mcrpgeco.config.Config.initConfig();
         MarketItem marketItem = MarketItem.getInstance();
+        //MarketItem.getInstance().updateValues("",50000,512,85,16);
+
         MarketCalculs marketCalculs = MarketCalculs.getInstance();
         marketCalculs.initValue(marketItem);
         marketCalculs.updateMarketValues();
 
-        // Accessing BlockbergTerminalScreen
         BlockbergTerminalScreen blockbergTerminalScreen = BlockbergTerminalScreen.getInstance();
         blockbergTerminalScreen.updatePriceValues();
     }

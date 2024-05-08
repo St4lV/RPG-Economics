@@ -9,7 +9,6 @@ public class MarketCalculs {
     private static MarketCalculs instance;
 
     private MarketCalculs() {
-        // Private constructor to prevent instantiation from outside
     }
 
     public static MarketCalculs getInstance() {
@@ -27,7 +26,7 @@ public class MarketCalculs {
     public void initValue(/*ServerPlayer player*/MarketItem marketItem) {
 
         InitPrice = marketItem.getPrice();
-        Qmax = marketItem.getQmax();
+        Qmax = marketItem.getQMax();
         QstartRatio = marketItem.getQStartRatio();
         Qratio = QstartRatio;
         Qact = Qmax * QstartRatio / 100;
@@ -36,8 +35,6 @@ public class MarketCalculs {
         PlayerAccount = InitPlayerAccount;
         updatedPlayerAccount = PlayerAccount;
     }
-
-
 
     // Quantity of items at init for test player
     private int QJoueur = 15;
@@ -107,9 +104,9 @@ public class MarketCalculs {
             Qratio = Qact * 100 / Qmax;
 
             String buy_successful = "§a✔ §b⇊ §f" +
-                    (gcBuy != 0 ? gcBuy + " §e⓪ §f" : "") +
-                    (scBuy != 0 ? scBuy + " §7⓪ §f" : "") +
-                    bcBuy + "§6 ⓪ §f : Item bought.";
+                    (gcBuy != 0 ? gcBuy + "§e§l⌾ §f" : "") +
+                    (scBuy != 0 ? scBuy + "§7§l⌾ §f" : "") +
+                    bcBuy + "§6§l⌾ §f : Item bought.";
 
             Minecraft.getInstance().player.sendSystemMessage(Component.literal(buy_successful));
 
@@ -152,9 +149,9 @@ public class MarketCalculs {
         } else if (QJoueur >= 1 && Qact <= Qmax) {
             System.out.println("Successfully sold for: " + gcSell + "\u001B[93m gold coins \u001B[0m " + scSell + "\u001B[37m silver coins \u001B[0m " + bcSell + "\u001B[33m bronze coins \u001B[0m ");
             String sell_successful = "§a✔ §d⇈ §f" +
-                    (gcSell != 0 ? gcSell + " §e⓪ §f" : "") +
-                    (scSell != 0 ? scSell + " §7⓪ §f" : "") +
-                    bcSell + "§6⓪ §f : Item sold.";
+                    (gcSell != 0 ? gcSell + "§e§l⌾ §f" : "") +
+                    (scSell != 0 ? scSell + "§7§l⌾ §f" : "") +
+                    bcSell + "§6§l⌾ §f : Item sold.";
             Minecraft.getInstance().player.sendSystemMessage(Component.literal(sell_successful));
 
 

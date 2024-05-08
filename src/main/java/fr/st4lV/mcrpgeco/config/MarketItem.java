@@ -1,16 +1,12 @@
 package fr.st4lV.mcrpgeco.config;
 
 public class MarketItem {
-    private String item;
-    private int price = 10000;
-    private int qMax = 512;
-    private int qStartRatio = 85;
-    private int qStock = 8;
+    private String itemData,itemMod,item;
+    private int price, qMax,qStartRatio,qStock;
 
     private static MarketItem instance;
 
     private MarketItem() {
-        // Private constructor to prevent instantiation from outside
     }
 
     public static MarketItem getInstance() {
@@ -20,57 +16,56 @@ public class MarketItem {
         return instance;
     }
 
-    public static void init(
+    public void updateValues(
             String itemGrab,
             int priceGrab,
             int qMaxGrab,
             int qStartRatioGrab,
             int qStockGrab) {
-        instance = new MarketItem();
-        instance.setItem(itemGrab);
-        instance.setPrice(priceGrab);
-        instance.setQmax(qMaxGrab);
-        instance.setQStartRatio(qStartRatioGrab);
-        instance.setQStock(qStockGrab);
+        this.itemData = itemGrab;
 
+        // Split the itemGrab string into two parts based on ":"
+        String[] parts = itemGrab.split(":");
+
+        // Assign the parts to itemMod and item
+        if (parts.length >= 2) {
+            this.itemMod = parts[0];
+            this.item = parts[1];
+        } else {
+            // Handle case where there is no ":" in the string
+            this.itemMod = "mod_id";
+            this.item = itemGrab; // or whatever default value you prefer
+        }
+
+        this.price = priceGrab;
+        this.qMax = qMaxGrab;
+        this.qStartRatio = qStartRatioGrab;
+        this.qStock = qStockGrab;
+    }
+
+    public String getItemData() {
+        return itemData;
+    }
+    public String getItemMod() {
+        return itemMod;
     }
     public String getItem() {
         return item;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getQmax() {
+    public int getQMax() {
         return qMax;
-    }
-
-    public void setQmax(int qMax) {
-        this.qMax = qMax;
     }
 
     public int getQStartRatio() {
         return qStartRatio;
     }
 
-    public void setQStartRatio(int qStartRatio) {
-        this.qStartRatio = qStartRatio;
-    }
-
     public int getQStock() {
         return qStock;
-    }
-
-    public void setQStock(int qStock) {
-        this.qStock = qStock;
     }
 }

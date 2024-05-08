@@ -7,6 +7,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mojang.text2speech.Narrator.LOGGER;
+
 public class Config {
     // Define your config values as static fields
     public static ForgeConfigSpec.ConfigValue<List<String>> marketItems;
@@ -26,7 +28,6 @@ public class Config {
                                 This mod while need fews values before doing it job so here a little explanation ! :
 
                                 Price : has to be a positive integer, uses =>1000 values for better results.
-                                 \
                                 (!! remind !! : 101010 is 10 gold coins 10 silver coins & 10 bronze coins.)
 
                                 qMax: has to be a positive integer, maximum of stocks available inside the trade.
@@ -42,6 +43,9 @@ public class Config {
                                 """
                 )
                 .define("marketItems", new ArrayList<String>() {{
+                    add("minecraft:iron_ingot,25000,512,85,48");
+                    add("minecraft:copper_ingot,25000,512,85,64");
+                    add("minecraft:gold_ingot,330000,512,85,48");
                     add("minecraft:ancient_debris,250000,512,85,1");
                 }});
 
@@ -56,14 +60,10 @@ public class Config {
     public static void registerConfig() {
         // Register the configuration
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, CONFIG);
+    }
 
-        // Get the default market items from the configuration
-        List<String> defaultMarketItems = marketItems.get();
-        String firstItem = defaultMarketItems.isEmpty() ? "" : defaultMarketItems.get(0);
-        String[] parts = firstItem.split(",");
-        if (parts.length == 5) {
-            //MarketItem.init(parts[0], Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), Integer.parseInt(parts[4]));
-            MarketItem.init("yes:yes",50000,512,85,32);
-        }
+    public static void initConfig() {
+        MarketItem.getInstance().updateValues("minecraft:iron_ingot",50000,512,85,16);
     }
 }
+

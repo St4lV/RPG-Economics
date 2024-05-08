@@ -1,7 +1,9 @@
 package fr.st4lV.mcrpgeco.screen;
 
+import com.sun.jna.platform.win32.COM.util.annotation.ComObject;
 import fr.st4lV.mcrpgeco.RPGEconomics;
 import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
+import fr.st4lV.mcrpgeco.config.MarketItem;
 import fr.st4lV.mcrpgeco.core.MarketCalculs;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -58,12 +60,30 @@ public class BlockbergTerminalScreen extends Screen {
                 (gcSell < 100 ? (bcSell != 0 ? bcSell + "§6§l⌾" : "") : ""));
 
         Component accountDislayComponent = Component.translatable(
-                "§7§l Account: §f" + gcPlayer + "§e§l⌾ §f" + scPlayer + "§7§l⌾ §f" +  bcPlayer + "§6§l⌾ §f");
+                "§f§lAccount: §f" + (gcPlayer != 0 ? gcPlayer + "§e§l⌾ §f" : "") +
+                                           (scPlayer != 0 ? scPlayer + "§7§l⌾ §f" : "") +
+                                           (bcPlayer != 0 ? bcPlayer + "§6§l⌾ §f" : ""));
+        Component qStockComponent = Component.translatable(
+                 "" + MarketItem.getInstance().getQStock()
+        );
+        Component buyTooltipComp =  Component.literal("")
+                .append(Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.buy_button"))
+                .append(Component.literal(": x" + MarketItem.getInstance().getQStock() + " "))
+                .append(Component.translatable("item." + MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
+
+        Component sellTooltipComp =  Component.literal("")
+                .append(Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.sell_button"))
+                .append(Component.literal(": x" + MarketItem.getInstance().getQStock() + " "))
+                .append(Component.translatable("item." + MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
 
         // Check for null values and assign empty components if null
+        QSTOCK = qStockComponent;
+        ACCOUNT = accountDislayComponent;
         BUY_PRICE = buyComponent;
         SELL_PRICE = sellComponent;
-        ACCOUNT = accountDislayComponent;
+        BUY_TOOLTIP = buyTooltipComp;
+        SELL_TOOLTIP = sellTooltipComp;
+
     }
 
 
@@ -77,6 +97,9 @@ public class BlockbergTerminalScreen extends Screen {
     private static Component BUY_PRICE;
     private static Component SELL_PRICE;
     private static Component ACCOUNT;
+    private static Component QSTOCK;
+    private static Component BUY_TOOLTIP;
+    private static Component SELL_TOOLTIP;
 
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(RPGEconomics.MODID, "textures/gui/blockberg_terminal_gui.png");
@@ -86,7 +109,7 @@ public class BlockbergTerminalScreen extends Screen {
     private int imageHeight;
 
     private BlockbergTerminalBlockEntity blockEntity;
-    private int leftPos, topPos;
+    private int leftPos, topPos, rightPos;
 
     private Button ItemBuyButton;
     private Button ItemSellButton;
@@ -106,6 +129,7 @@ public class BlockbergTerminalScreen extends Screen {
 
         this.leftPos = (this.width - this.imageWidth) / 2;
         this.topPos = (this.height - this.imageHeight) / 2;
+        int rightPos = this.imageWidth - this.width;
 
         if(this.minecraft == null) return;
         Level level = this.minecraft.level;
@@ -122,14 +146,14 @@ public class BlockbergTerminalScreen extends Screen {
 
                 Button.builder(ITEM_BUY_BUTTON, this::handleItem1BuyButton)
                         .bounds(this.leftPos + 26, this.topPos + 18, 27, 16)
-                        .tooltip(Tooltip.create(ITEM_BUY_BUTTON))
+                        .tooltip(Tooltip.create(BUY_TOOLTIP))
                         .build()
         );
 
         this.ItemSellButton = addRenderableWidget(
                 Button.builder(ITEM_SELL_BUTTON, this::handleItem1SellButton)
                         .bounds(this.leftPos + 114, this.topPos + 18, 27, 16)
-                        .tooltip(Tooltip.create(ITEM_SELL_BUTTON))
+                        .tooltip(Tooltip.create(SELL_TOOLTIP))
                         .build()
         );
         this.ItemBuyButton = addRenderableWidget(
@@ -212,19 +236,24 @@ public class BlockbergTerminalScreen extends Screen {
                 0x404040,
                 false
         );
+        graphics.drawString(this.font,
+                ACCOUNT,
+                this.leftPos + 21, this.topPos + 129, 0xFFFFFF
+        );
 
         graphics.drawString(this.font,
+                QSTOCK,
+                this.leftPos + 13, this.topPos + 27, 0xFFFFFF
+        );
+        graphics.drawString(this.font,
                 BUY_PRICE,
-                this.leftPos + 55, this.topPos + 24, 0xFF0000
+                this.leftPos + 55, this.topPos + 24, 0xFFFFFF
         );
         graphics.drawString(this.font,
                 SELL_PRICE,
-                this.leftPos + 143, this.topPos + 24, 0xFF0000
+                this.leftPos + 143, this.topPos + 24, 0xFFFFFF
         );
-        graphics.drawString(this.font,
-                ACCOUNT,
-                this.leftPos + 20, this.topPos + 129, 0xFF0000
-        );
+
 
     }
 
