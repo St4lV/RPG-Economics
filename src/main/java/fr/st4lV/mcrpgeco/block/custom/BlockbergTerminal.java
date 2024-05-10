@@ -4,6 +4,7 @@ import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
 import fr.st4lV.mcrpgeco.block.entity.ModBlockEntities;
 import fr.st4lV.mcrpgeco.util.TickableBlockEntity;
 import fr.st4lV.mcrpgeco.client.ClientHooks;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;

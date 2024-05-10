@@ -1,7 +1,7 @@
 package fr.st4lV.mcrpgeco.config;
 
 public class MarketItem {
-    private String itemData,itemMod,item;
+    private String itemData,itemMod,item,itemType;
     private int price, qMax,qStartRatio,qStock;
 
     private static MarketItem instance;
@@ -21,7 +21,9 @@ public class MarketItem {
             int priceGrab,
             int qMaxGrab,
             int qStartRatioGrab,
-            int qStockGrab) {
+            int qStockGrab,
+            String stockType
+                        ) {
         this.itemData = itemGrab;
 
         // Split the itemGrab string into two parts based on ":"
@@ -41,6 +43,7 @@ public class MarketItem {
         this.qMax = qMaxGrab;
         this.qStartRatio = qStartRatioGrab;
         this.qStock = qStockGrab;
+        this.itemType = stockType;
     }
 
     public String getItemData() {
@@ -67,5 +70,8 @@ public class MarketItem {
 
     public int getQStock() {
         return qStock;
+    }
+    public String getItemType() {
+        return itemType;
     }
 }

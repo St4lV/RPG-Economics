@@ -4,13 +4,15 @@
   "item.mcrpgeco.bronze_coin": "Pièce de Bronze",
   "item.mcrpgeco.silver_coin": "Pièce d'Argent",
   "item.mcrpgeco.gold_coin": "Pièce d'Or",
-  "item.mcrpgeco.purse": "Purse",
+  "item.mcrpgeco.purse": "Bourse",
 
+  "block.mcrpgeco.test_block": "Bloc de test",
   "block.mcrpgeco.blockberg_terminal": "Terminal Blockberg",
 
   "gui.mcrpgeco.blockberg_terminal.button.buy_button": "Achat",
   "gui.mcrpgeco.blockberg_terminal.button.sell_button": "Vente",
   "gui.mcrpgeco.blockberg_terminal": "Blockberg OS 0.1.0",
+  "gui.mcrpgeco.blockberg_terminal.display.account": "Compte",
 
   "entity.minecraft.villager.mcrpgeco.stocktrader": "Négociant d'Actions"
 }

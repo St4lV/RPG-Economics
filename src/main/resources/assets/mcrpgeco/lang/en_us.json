@@ -1,4 +1,6 @@
 {
+  "creativetab.mcrpgeco_tab": "RPG Economics",
+
   "item.mcrpgeco.bronze_coin": "Bronze Coin",
   "item.mcrpgeco.silver_coin": "Silver Coin",
   "item.mcrpgeco.gold_coin": "Gold Coin",
@@ -7,11 +9,10 @@
   "block.mcrpgeco.test_block": "Test Block",
   "block.mcrpgeco.blockberg_terminal": "Blockberg Terminal",
 
-  "creativetab.mcrpgeco_tab": "RPG Economics",
-
   "gui.mcrpgeco.blockberg_terminal.button.buy_button": "Buy",
   "gui.mcrpgeco.blockberg_terminal.button.sell_button": "Sell",
   "gui.mcrpgeco.blockberg_terminal": "Blockberg OS 0.1.0",
+  "gui.mcrpgeco.blockberg_terminal.display.account": "Account",
 
   "entity.minecraft.villager.mcrpgeco.stocktrader": "Stock Trader"
 }

@@ -1,6 +1,5 @@
 package fr.st4lV.mcrpgeco.screen;
 
-import com.sun.jna.platform.win32.COM.util.annotation.ComObject;
 import fr.st4lV.mcrpgeco.RPGEconomics;
 import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
 import fr.st4lV.mcrpgeco.config.MarketItem;
@@ -10,24 +9,27 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureManager;
+
+
 
 
 public class BlockbergTerminalScreen extends Screen {
 
-    private static BlockbergTerminalScreen instance; // Add this line
+    private static BlockbergTerminalScreen instance;
 
-    // Private constructor to prevent instantiation from outside
     private BlockbergTerminalScreen() {
         super(Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal"));
     }
 
-    // Static method to get the instance of BlockbergTerminalScreen
     public static BlockbergTerminalScreen getInstance() {
         if (instance == null) {
             instance = new BlockbergTerminalScreen();
@@ -59,30 +61,36 @@ public class BlockbergTerminalScreen extends Screen {
                 (gcSell < 10000 ? (scSell!= 0  ? scSell + "§7§l⌾ §f" : "") : "") +
                 (gcSell < 100 ? (bcSell != 0 ? bcSell + "§6§l⌾" : "") : ""));
 
-        Component accountDislayComponent = Component.translatable(
-                "§f§lAccount: §f" + (gcPlayer != 0 ? gcPlayer + "§e§l⌾ §f" : "") +
+        Component accountDislayComponent = Component.literal("")
+                .append(Component.translatable("gui.mcrpgeco.blockberg_terminal.display.account"))
+                .append(Component.literal(": §f"+ (gcPlayer != 0 ? gcPlayer + "§e§l⌾ §f" : "") +
                                            (scPlayer != 0 ? scPlayer + "§7§l⌾ §f" : "") +
-                                           (bcPlayer != 0 ? bcPlayer + "§6§l⌾ §f" : ""));
+                                           (bcPlayer != 0 ? bcPlayer + "§6§l⌾ §f" : "")));
+
         Component qStockComponent = Component.translatable(
                  "" + MarketItem.getInstance().getQStock()
         );
         Component buyTooltipComp =  Component.literal("")
                 .append(Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.buy_button"))
                 .append(Component.literal(": x" + MarketItem.getInstance().getQStock() + " "))
-                .append(Component.translatable("item." + MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
+                .append(Component.translatable(MarketItem.getInstance().getItemType() +"."+ MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
 
         Component sellTooltipComp =  Component.literal("")
                 .append(Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.sell_button"))
                 .append(Component.literal(": x" + MarketItem.getInstance().getQStock() + " "))
-                .append(Component.translatable("item." + MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
+                .append(Component.translatable(MarketItem.getInstance().getItemType() +"."+ MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
 
-        // Check for null values and assign empty components if null
+        Component item1TooltipComp =  Component.literal("")
+                .append(Component.literal(": x" + MarketItem.getInstance().getQStock() + " "))
+                .append(Component.translatable(MarketItem.getInstance().getItemType() +"."+ MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
+
         QSTOCK = qStockComponent;
         ACCOUNT = accountDislayComponent;
         BUY_PRICE = buyComponent;
         SELL_PRICE = sellComponent;
         BUY_TOOLTIP = buyTooltipComp;
         SELL_TOOLTIP = sellTooltipComp;
+        ITEM1_TOOLTIP = sellTooltipComp;
 
     }
 
@@ -100,19 +108,26 @@ public class BlockbergTerminalScreen extends Screen {
     private static Component QSTOCK;
     private static Component BUY_TOOLTIP;
     private static Component SELL_TOOLTIP;
+    private static Component ITEM1_TOOLTIP;
 
-    private static final ResourceLocation TEXTURE =
+    private static final ResourceLocation GUI_TEXTURE =
             new ResourceLocation(RPGEconomics.MODID, "textures/gui/blockberg_terminal_gui.png");
+
+    private static final ResourceLocation ITEM1_TEXTURE =
+            new ResourceLocation(MarketItem.getInstance().getItemMod(), "textures/"+MarketItem.getInstance().getItemType()+"/"+MarketItem.getInstance().getItem()+".png");
 
     private BlockPos position;
     private int imageWidth;
     private int imageHeight;
 
     private BlockbergTerminalBlockEntity blockEntity;
-    private int leftPos, topPos, rightPos;
+    private int leftPos, topPos;
 
     private Button ItemBuyButton;
     private Button ItemSellButton;
+
+    private void renderWithTooltip(GuiGraphics graphics) {
+    }
 
     public BlockbergTerminalScreen(BlockPos position) {
         super(TITLE);
@@ -122,14 +137,13 @@ public class BlockbergTerminalScreen extends Screen {
         this.imageHeight = 229;
     }
 
-    @Override
+        @Override
     protected void init() {
         MarketCalculs marketCalculs = MarketCalculs.getInstance();
         super.init();
 
         this.leftPos = (this.width - this.imageWidth) / 2;
         this.topPos = (this.height - this.imageHeight) / 2;
-        int rightPos = this.imageWidth - this.width;
 
         if(this.minecraft == null) return;
         Level level = this.minecraft.level;
@@ -226,7 +240,16 @@ public class BlockbergTerminalScreen extends Screen {
     @Override
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         renderBackground(graphics);
-        graphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+
+
+        renderWithTooltip(graphics);
+        graphics.blit(
+                ITEM1_TEXTURE,
+                this.leftPos+8, this.topPos+18,
+                0, 0,
+                16, 16, 16, 16);
         super.render(graphics, mouseX, mouseY, partialTicks);
 
         graphics.drawString(this.font,
@@ -238,7 +261,9 @@ public class BlockbergTerminalScreen extends Screen {
         );
         graphics.drawString(this.font,
                 ACCOUNT,
-                this.leftPos + 21, this.topPos + 129, 0xFFFFFF
+                this.leftPos + 26,
+                this.topPos + 129,
+                0xFFFFFF
         );
 
         graphics.drawString(this.font,
@@ -253,7 +278,6 @@ public class BlockbergTerminalScreen extends Screen {
                 SELL_PRICE,
                 this.leftPos + 143, this.topPos + 24, 0xFFFFFF
         );
-
 
     }
 

@@ -35,6 +35,8 @@ public class Config {
                                 qStartRatio : range : 1-100, quantity in % of Max Quantity value available inside the trade a init.
 
                                 qStock: range : 1-64, quantity of items traded by stocks.
+                                
+                                !! You need to specify the type of item you're selling (block,item) !!
 
 
                                 List of Market Items
@@ -43,10 +45,10 @@ public class Config {
                                 """
                 )
                 .define("marketItems", new ArrayList<String>() {{
-                    add("minecraft:iron_ingot,25000,512,85,48");
-                    add("minecraft:copper_ingot,25000,512,85,64");
-                    add("minecraft:gold_ingot,330000,512,85,48");
-                    add("minecraft:ancient_debris,250000,512,85,1");
+                    add("minecraft:iron_ingot,25000,512,85,48,item");
+                    add("minecraft:copper_ingot,25000,512,85,64,item");
+                    add("minecraft:gold_ingot,330000,512,85,48,item");
+                    add("minecraft:ancient_debris,250000,512,85,1,item");
                 }});
 
         // Pop the current configuration section
@@ -63,7 +65,7 @@ public class Config {
     }
 
     public static void initConfig() {
-        MarketItem.getInstance().updateValues("minecraft:iron_ingot",50000,512,85,16);
+        MarketItem.getInstance().updateValues("minecraft:iron_block",50000,512,85,16, "block");
     }
 }
 
