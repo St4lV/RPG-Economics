@@ -1,6 +1,6 @@
 package fr.st4lV.mcrpgeco.core;
 
-import fr.st4lV.mcrpgeco.config.MarketItem;
+import fr.st4lV.mcrpgeco.core.MarketItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
@@ -20,9 +20,9 @@ public class MarketCalculs {
 
     //init:
 
-    private int InitPrice, InitPlayerAccount, Qmax, Qact, Qratio, PlayerAccount, updatedPlayerAccount, QstartRatio, ActPrice;
+    private int InitPrice, InitPlayerAccount, Qmax, Qratio, PlayerAccount, updatedPlayerAccount, QstartRatio, ActPrice;
     private double buyPrice, sellPrice;
-    public int gcPlayer, scPlayer, bcPlayer, gcBuy, scBuy, bcBuy, gcSell, scSell, bcSell;
+    public int gcPlayer, scPlayer, bcPlayer, gcBuy, scBuy, bcBuy, gcSell, scSell, bcSell, Qact;
     public void initValue(/*ServerPlayer player*/MarketItem marketItem) {
 
         InitPrice = marketItem.getPrice();

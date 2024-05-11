@@ -1,7 +1,8 @@
 package fr.st4lV.mcrpgeco;
 
 //import net.minecraft.world.level.Ser
-import fr.st4lV.mcrpgeco.config.MarketItem;
+import fr.st4lV.mcrpgeco.config.ServConfDatagen;
+import fr.st4lV.mcrpgeco.core.MarketItem;
 import fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreen;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,7 +48,7 @@ public class RPGEconomics
 
         ModCreativeModTabs.register(modEventBus);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, fr.st4lV.mcrpgeco.config.Config.CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, fr.st4lV.mcrpgeco.config.Serverconfig.SERVERCONFIG);
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
@@ -76,7 +77,7 @@ public class RPGEconomics
 
     private static void setup(FMLCommonSetupEvent event) {
 
-        fr.st4lV.mcrpgeco.config.Config.registerConfig();
+        fr.st4lV.mcrpgeco.config.Serverconfig.registerConfig();
 
     }
 
@@ -103,7 +104,9 @@ public class RPGEconomics
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
 
-        fr.st4lV.mcrpgeco.config.Config.initConfig();
+        ServConfDatagen.GenerateJSON();
+
+        fr.st4lV.mcrpgeco.config.Serverconfig.initConfig();
         MarketItem marketItem = MarketItem.getInstance();
         //MarketItem.getInstance().updateValues("",50000,512,85,16);
 
@@ -112,7 +115,7 @@ public class RPGEconomics
         marketCalculs.updateMarketValues();
 
         BlockbergTerminalScreen blockbergTerminalScreen = BlockbergTerminalScreen.getInstance();
-        blockbergTerminalScreen.updatePriceValues();
+        blockbergTerminalScreen.updateValues();
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

@@ -14,5 +14,8 @@
   "gui.mcrpgeco.blockberg_terminal": "Blockberg OS 0.1.0",
   "gui.mcrpgeco.blockberg_terminal.display.account": "Account",
 
-  "entity.minecraft.villager.mcrpgeco.stocktrader": "Stock Trader"
+  "entity.minecraft.villager.mcrpgeco.stocktrader": "Stock Trader",
+
+  "gui.mcrpgeco.blockberg_terminal.next_page_button": "Next Page",
+  "gui.mcrpgeco.blockberg_terminal.previous_page_button": "Previous Page"
 }

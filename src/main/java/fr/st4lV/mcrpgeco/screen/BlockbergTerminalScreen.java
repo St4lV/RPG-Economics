@@ -2,27 +2,30 @@ package fr.st4lV.mcrpgeco.screen;
 
 import fr.st4lV.mcrpgeco.RPGEconomics;
 import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
-import fr.st4lV.mcrpgeco.config.MarketItem;
+import fr.st4lV.mcrpgeco.core.MarketItem;
 import fr.st4lV.mcrpgeco.core.MarketCalculs;
+import fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreenComponents;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureManager;
 
-
+import static fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreenComponents.marketCalculs;
 
 
 public class BlockbergTerminalScreen extends Screen {
+
+    public int ActPage = 1;
+
+    private ItemStack Item1Stack;
 
     private static BlockbergTerminalScreen instance;
 
@@ -37,63 +40,53 @@ public class BlockbergTerminalScreen extends Screen {
         return instance;
     }
 
-    static MarketCalculs marketCalculs = MarketCalculs.getInstance();
-
     public void updatePriceValues() {
-        int gcBuy = marketCalculs.gcBuy;
-        int scBuy = marketCalculs.scBuy;
-        int bcBuy = marketCalculs.bcBuy;
-        int gcSell = marketCalculs.gcSell;
-        int scSell = marketCalculs.scSell;
-        int bcSell = marketCalculs.bcSell;
+
+        BlockbergTerminalScreenComponents.getInstance().updateComponent();
+        GetActPage();
+        System.out.println("GetActPage:"+GetActPage());
+
         int gcPlayer = marketCalculs.gcPlayer;
         int scPlayer = marketCalculs.scPlayer;
         int bcPlayer = marketCalculs.bcPlayer;
 
-
-        Component buyComponent = Component.translatable(/*"§d⇈*/ "§f" +
-                (gcBuy != 0 ? gcBuy + "§e§l⌾ §f" : "") +
-                (gcBuy < 10000 ? (scBuy!= 0  ? scBuy + "§7§l⌾ §f" : "") : "") +
-                (gcBuy < 100 ? (bcBuy != 0 ? bcBuy + "§6§l⌾" : "") : ""));
-
-        Component sellComponent = Component.translatable(/*"§b⇊*/"§f" +
-                (gcSell != 0 ? gcSell + "§e§l⌾ §f" : "") +
-                (gcSell < 10000 ? (scSell!= 0  ? scSell + "§7§l⌾ §f" : "") : "") +
-                (gcSell < 100 ? (bcSell != 0 ? bcSell + "§6§l⌾" : "") : ""));
-
         Component accountDislayComponent = Component.literal("")
                 .append(Component.translatable("gui.mcrpgeco.blockberg_terminal.display.account"))
                 .append(Component.literal(": §f"+ (gcPlayer != 0 ? gcPlayer + "§e§l⌾ §f" : "") +
-                                           (scPlayer != 0 ? scPlayer + "§7§l⌾ §f" : "") +
-                                           (bcPlayer != 0 ? bcPlayer + "§6§l⌾ §f" : "")));
+                        (scPlayer != 0 ? scPlayer + "§7§l⌾ §f" : "") +
+                        (bcPlayer != 0 ? bcPlayer + "§6§l⌾ §f" : "")));
 
-        Component qStockComponent = Component.translatable(
-                 "" + MarketItem.getInstance().getQStock()
-        );
-        Component buyTooltipComp =  Component.literal("")
-                .append(Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.buy_button"))
-                .append(Component.literal(": x" + MarketItem.getInstance().getQStock() + " "))
-                .append(Component.translatable(MarketItem.getInstance().getItemType() +"."+ MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
+        Component nextPageButtonComp = Component.literal(">");
+        Component previousPageButtonComp = Component.literal("<");
+        Component ActPageComp = Component.literal("[ "+BlockbergTerminalScreen.getInstance().GetActPage()+" / "+ MarketItem.getInstance().getMaxPage()+" ]");
 
-        Component sellTooltipComp =  Component.literal("")
-                .append(Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.sell_button"))
-                .append(Component.literal(": x" + MarketItem.getInstance().getQStock() + " "))
-                .append(Component.translatable(MarketItem.getInstance().getItemType() +"."+ MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
+        Component nextPageTooltipComp = Component.translatable("gui."+RPGEconomics.MODID+".blockberg_terminal.next_page_button");
+        Component previousPageTooltipComp = Component.translatable("gui."+RPGEconomics.MODID+".blockberg_terminal.previous_page_button");
 
-        Component item1TooltipComp =  Component.literal("")
-                .append(Component.literal(": x" + MarketItem.getInstance().getQStock() + " "))
-                .append(Component.translatable(MarketItem.getInstance().getItemType() +"."+ MarketItem.getInstance().getItemMod() + "." + MarketItem.getInstance().getItem()));
 
-        QSTOCK = qStockComponent;
+
+        ResourceLocation item1Texture = determineItemTexture1();
+
         ACCOUNT = accountDislayComponent;
-        BUY_PRICE = buyComponent;
-        SELL_PRICE = sellComponent;
-        BUY_TOOLTIP = buyTooltipComp;
-        SELL_TOOLTIP = sellTooltipComp;
-        ITEM1_TOOLTIP = sellTooltipComp;
+        NEXT_PAGE_BUTTON = nextPageButtonComp;
+        PREVIOUS_PAGE_BUTTON = previousPageButtonComp;
+        NEXT_PAGE_TOOLTIP = nextPageTooltipComp;
+        PREVIOUS_PAGE_TOOLTIP = previousPageTooltipComp;
+        ACT_PAGE = ActPageComp;
+
+        QSTOCK1 = BlockbergTerminalScreenComponents.getInstance().getQstockComponent1();
+        BUY_PRICE1 = BlockbergTerminalScreenComponents.getInstance().getBuyComponent1();
+        SELL_PRICE1 = BlockbergTerminalScreenComponents.getInstance().getSellComponent1();
+        BUY_TOOLTIP1 = BlockbergTerminalScreenComponents.getInstance().getBuyTooltipComp1();
+        SELL_TOOLTIP1 = BlockbergTerminalScreenComponents.getInstance().getSellTooltipComp1();
+
+
 
     }
-
+    public int GetActPage() {
+        System.out.println("ActPage5:"+ActPage);
+        return ActPage;
+    };
 
     private static final Component TITLE =
             Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal");
@@ -102,19 +95,33 @@ public class BlockbergTerminalScreen extends Screen {
     private static final Component ITEM_SELL_BUTTON =
             Component.translatable("gui." + RPGEconomics.MODID + ".blockberg_terminal.button.sell_button");
 
-    private static Component BUY_PRICE;
-    private static Component SELL_PRICE;
+    private static Component BUY_PRICE1;
+    private static Component SELL_PRICE1;
     private static Component ACCOUNT;
-    private static Component QSTOCK;
-    private static Component BUY_TOOLTIP;
-    private static Component SELL_TOOLTIP;
-    private static Component ITEM1_TOOLTIP;
+    private static Component QSTOCK1;
+    private static Component BUY_TOOLTIP1;
+    private static Component SELL_TOOLTIP1;
+    private static Component NEXT_PAGE_BUTTON;
+    private static Component PREVIOUS_PAGE_BUTTON;
+    private static Component NEXT_PAGE_TOOLTIP;
+    private static Component PREVIOUS_PAGE_TOOLTIP;
+    public static Component ACT_PAGE;
 
     private static final ResourceLocation GUI_TEXTURE =
             new ResourceLocation(RPGEconomics.MODID, "textures/gui/blockberg_terminal_gui.png");
 
-    private static final ResourceLocation ITEM1_TEXTURE =
-            new ResourceLocation(MarketItem.getInstance().getItemMod(), "textures/"+MarketItem.getInstance().getItemType()+"/"+MarketItem.getInstance().getItem()+".png");
+    private ResourceLocation determineItemTexture1() {
+        if (ActPage == 1) {
+            return new ResourceLocation(MarketItem.getInstance().getItemMod(), "textures/" + MarketItem.getInstance().getItemType() + "/" + MarketItem.getInstance().getItem() + ".png");
+        } else if (ActPage == 2) {
+            return new ResourceLocation(RPGEconomics.MODID, "textures/item/bronze_coin.png");
+        } else {
+            return null;
+        }
+    }
+
+    private static final ResourceLocation ITEM1_MODEL =
+            new ResourceLocation(MarketItem.getInstance().getItemMod(), "models/"+MarketItem.getInstance().getItemType()+"/"+MarketItem.getInstance().getItem());
 
     private BlockPos position;
     private int imageWidth;
@@ -125,9 +132,8 @@ public class BlockbergTerminalScreen extends Screen {
 
     private Button ItemBuyButton;
     private Button ItemSellButton;
-
-    private void renderWithTooltip(GuiGraphics graphics) {
-    }
+    private Button NextPageButton;
+    private Button PreviousPageButton;
 
     public BlockbergTerminalScreen(BlockPos position) {
         super(TITLE);
@@ -156,18 +162,32 @@ public class BlockbergTerminalScreen extends Screen {
             System.err.printf("BlockEntity at %s is not of type BlockbergTerminalBlockEntity!\n", this.position);
             return;
         }
+        this.NextPageButton = addRenderableWidget(
+
+                Button.builder(NEXT_PAGE_BUTTON, this::handleNextpage)
+                        .bounds(this.leftPos + 192, this.topPos + 126, 16, 16)
+                        .tooltip(Tooltip.create(NEXT_PAGE_TOOLTIP))
+                        .build()
+        );
+        this.PreviousPageButton = addRenderableWidget(
+
+                Button.builder(PREVIOUS_PAGE_BUTTON, this::handlePreviouspage)
+                        .bounds(this.leftPos + 4, this.topPos + 126, 16, 16)
+                        .tooltip(Tooltip.create(PREVIOUS_PAGE_TOOLTIP))
+                        .build()
+        );
         this.ItemBuyButton = addRenderableWidget(
 
                 Button.builder(ITEM_BUY_BUTTON, this::handleItem1BuyButton)
                         .bounds(this.leftPos + 26, this.topPos + 18, 27, 16)
-                        .tooltip(Tooltip.create(BUY_TOOLTIP))
+                        .tooltip(Tooltip.create(BUY_TOOLTIP1))
                         .build()
         );
 
         this.ItemSellButton = addRenderableWidget(
                 Button.builder(ITEM_SELL_BUTTON, this::handleItem1SellButton)
                         .bounds(this.leftPos + 114, this.topPos + 18, 27, 16)
-                        .tooltip(Tooltip.create(SELL_TOOLTIP))
+                        .tooltip(Tooltip.create(SELL_TOOLTIP1))
                         .build()
         );
         this.ItemBuyButton = addRenderableWidget(
@@ -243,15 +263,6 @@ public class BlockbergTerminalScreen extends Screen {
         graphics.blit(GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
         super.render(graphics, mouseX, mouseY, partialTicks);
 
-
-        renderWithTooltip(graphics);
-        graphics.blit(
-                ITEM1_TEXTURE,
-                this.leftPos+8, this.topPos+18,
-                0, 0,
-                16, 16, 16, 16);
-        super.render(graphics, mouseX, mouseY, partialTicks);
-
         graphics.drawString(this.font,
                 TITLE,
                 this.leftPos + 8,
@@ -265,20 +276,55 @@ public class BlockbergTerminalScreen extends Screen {
                 this.topPos + 129,
                 0xFFFFFF
         );
+        graphics.drawString(this.font,
+                ACT_PAGE,
+                this.leftPos + 155,
+                this.topPos + 8,
+                0x404040
+        );
 
         graphics.drawString(this.font,
-                QSTOCK,
-                this.leftPos + 13, this.topPos + 27, 0xFFFFFF
-        );
-        graphics.drawString(this.font,
-                BUY_PRICE,
+                BUY_PRICE1,
                 this.leftPos + 55, this.topPos + 24, 0xFFFFFF
         );
         graphics.drawString(this.font,
-                SELL_PRICE,
+                SELL_PRICE1,
                 this.leftPos + 143, this.topPos + 24, 0xFFFFFF
         );
 
+        ResourceLocation item1Texture = determineItemTexture1();
+        if (item1Texture != null) {
+            graphics.blit(
+                    item1Texture,
+                    this.leftPos + 8, this.topPos + 18,
+                    0, 0,
+                    16, 16, 16, 16);
+        }
+        graphics.drawString(this.font,
+                QSTOCK1,
+                this.leftPos + 13, this.topPos + 27, 0xFFFFFF
+        );
+
+    }
+
+    private void handleNextpage(Button button) {
+        if (ActPage >= MarketItem.getInstance().getMaxPage()) {
+            return;
+        } else {
+            ActPage = ActPage + 1;
+        }
+        System.out.println("ActPage:"+ActPage);
+        updatePriceValues();
+    }
+
+    private void handlePreviouspage(Button button) {
+        if (ActPage > 1) {
+            ActPage = ActPage - 1;
+        } else {
+            return;
+        }
+        System.out.println("ActPage:"+ActPage);
+        updatePriceValues();
     }
 
     private void handleItem1BuyButton(Button button) {
