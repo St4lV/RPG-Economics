@@ -32,6 +32,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
+import static fr.st4lV.mcrpgeco.config.Serverconfig.SERVERCONFIG;
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(RPGEconomics.MODID)
 public class RPGEconomics
@@ -48,7 +50,7 @@ public class RPGEconomics
 
         ModCreativeModTabs.register(modEventBus);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, fr.st4lV.mcrpgeco.config.Serverconfig.SERVERCONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVERCONFIG);
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
@@ -80,8 +82,6 @@ public class RPGEconomics
         fr.st4lV.mcrpgeco.config.Serverconfig.registerConfig();
 
     }
-
-    // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
 
@@ -104,7 +104,7 @@ public class RPGEconomics
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
 
-        ServConfDatagen.GenerateJSON();
+        ServConfDatagen.getMarketItemsFile();
 
         fr.st4lV.mcrpgeco.config.Serverconfig.initConfig();
         MarketItem marketItem = MarketItem.getInstance();
@@ -115,7 +115,8 @@ public class RPGEconomics
         marketCalculs.updateMarketValues();
 
         BlockbergTerminalScreen blockbergTerminalScreen = BlockbergTerminalScreen.getInstance();
-        blockbergTerminalScreen.updateValues();
+        blockbergTerminalScreen.updatePriceValues();
+        ServConfDatagen.getValuesToJSON();
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
@@ -128,6 +129,7 @@ public class RPGEconomics
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getUuid());
         }
     }
     /*@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)

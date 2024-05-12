@@ -4,7 +4,11 @@ import fr.st4lV.mcrpgeco.core.MarketItem;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLPaths;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,6 +61,15 @@ public class Serverconfig {
     }
 
     public static void initConfig() {
+        File backupFile = FMLPaths.CONFIGDIR.get().resolve("mcrpgeco-server-1.toml.bak").toFile();
+        if (backupFile.exists()) {
+            try {
+                Files.deleteIfExists(backupFile.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //ServConfDatagen.getValuesToJSON(2,"minecraft:gold_ingot", 25000, 512, 85, 16);
         MarketItem.getInstance().updateValues("minecraft:iron_block", 50000, 512, 85, 16, "block");
         //MarketItem.getInstance().updateValues("minecraft:copper_ingot",25000,512,85,16, "item");
     }

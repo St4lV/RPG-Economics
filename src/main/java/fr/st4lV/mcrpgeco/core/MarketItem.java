@@ -15,7 +15,7 @@ public class MarketItem {
 
     private static MarketItem instance;
 
-    private MarketItem() {
+    public MarketItem() {
     }
 
     public static MarketItem getInstance() {
@@ -45,10 +45,12 @@ public class MarketItem {
         if (parts.length >= 2) {
             this.itemMod = parts[0];
             this.item = parts[1];
+            this.itemData = itemGrab;
         } else {
             // Handle case where there is no ":" in the string
             this.itemMod = "mod_id";
             this.item = itemGrab; // or whatever default value you prefer
+            this.itemData = itemGrab;
         }
 
         // Update other values
