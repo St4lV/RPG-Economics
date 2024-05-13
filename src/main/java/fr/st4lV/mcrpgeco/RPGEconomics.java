@@ -4,6 +4,16 @@ package fr.st4lV.mcrpgeco;
 import fr.st4lV.mcrpgeco.config.ServConfDatagen;
 import fr.st4lV.mcrpgeco.core.MarketItem;
 import fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreen;
+import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerPlayerConnection;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.common.ForgeConfig;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -105,17 +115,14 @@ public class RPGEconomics
         LOGGER.info("HELLO from server starting");
 
         ServConfDatagen.getMarketItemsFile();
-
         fr.st4lV.mcrpgeco.config.Serverconfig.initConfig();
+
         MarketItem marketItem = MarketItem.getInstance();
         //MarketItem.getInstance().updateValues("",50000,512,85,16);
-
         MarketCalculs marketCalculs = MarketCalculs.getInstance();
+
         marketCalculs.initValue(marketItem);
         marketCalculs.updateMarketValues();
-
-        BlockbergTerminalScreen blockbergTerminalScreen = BlockbergTerminalScreen.getInstance();
-        blockbergTerminalScreen.updatePriceValues();
         ServConfDatagen.getValuesToJSON();
     }
 
@@ -123,6 +130,7 @@ public class RPGEconomics
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
+
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {

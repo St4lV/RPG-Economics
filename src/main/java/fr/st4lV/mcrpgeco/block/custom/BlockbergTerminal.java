@@ -2,6 +2,7 @@ package fr.st4lV.mcrpgeco.block.custom;
 
 import fr.st4lV.mcrpgeco.block.entity.BlockbergTerminalBlockEntity;
 import fr.st4lV.mcrpgeco.block.entity.ModBlockEntities;
+import fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreen;
 import fr.st4lV.mcrpgeco.util.TickableBlockEntity;
 import fr.st4lV.mcrpgeco.client.ClientHooks;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -49,6 +50,7 @@ public class BlockbergTerminal extends HorizontalDirectionalBlock implements Ent
 
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
+        BlockbergTerminalScreen.getInstance().updatePriceValues();
         if(hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
         if(!pLevel.isClientSide()) return InteractionResult.SUCCESS;
 

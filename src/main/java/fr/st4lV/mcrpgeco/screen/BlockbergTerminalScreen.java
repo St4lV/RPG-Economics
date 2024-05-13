@@ -23,7 +23,8 @@ import static fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreenComponents.marketC
 
 public class BlockbergTerminalScreen extends Screen {
 
-    public int ActPage = 1;
+    private int ActPage = 1;
+    private int ItemID = 1;
 
     private ItemStack Item1Stack;
 
@@ -58,7 +59,7 @@ public class BlockbergTerminalScreen extends Screen {
 
         Component nextPageButtonComp = Component.literal(">");
         Component previousPageButtonComp = Component.literal("<");
-        Component ActPageComp = Component.literal("[ "+BlockbergTerminalScreen.getInstance().GetActPage()+" / "+ MarketItem.getInstance().getMaxPage()+" ]");
+        Component ActPageComp = Component.literal("[ "+ActPage+" / "+ MarketItem.getInstance().getMaxPage()+" ]");
 
         Component nextPageTooltipComp = Component.translatable("gui."+RPGEconomics.MODID+".blockberg_terminal.next_page_button");
         Component previousPageTooltipComp = Component.translatable("gui."+RPGEconomics.MODID+".blockberg_terminal.previous_page_button");
@@ -111,11 +112,11 @@ public class BlockbergTerminalScreen extends Screen {
             new ResourceLocation(RPGEconomics.MODID, "textures/gui/blockberg_terminal_gui.png");
 
     private ResourceLocation determineItemTexture1() {
-        if (ActPage == 1) {
+        if (ItemID % 6 == 1 && ActPage == (int) ItemID / 6 + 1) {
             return new ResourceLocation(MarketItem.getInstance().getItemMod(), "textures/" + MarketItem.getInstance().getItemType() + "/" + MarketItem.getInstance().getItem() + ".png");
-        } else if (ActPage == 2) {
+        }/* else if ((ActPage % 6 == 2 && ActPage >= 2)) {
             return new ResourceLocation(RPGEconomics.MODID, "textures/item/bronze_coin.png");
-        } else {
+        } */else {
             return null;
         }
     }

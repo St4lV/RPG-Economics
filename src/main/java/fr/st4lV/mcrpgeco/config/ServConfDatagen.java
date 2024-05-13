@@ -5,6 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import fr.st4lV.mcrpgeco.core.MarketItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -46,26 +50,48 @@ public class ServConfDatagen {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static File getMarketItemsFile() {
-        File gameDir = Minecraft.getInstance().gameDirectory;
-        if (gameDir != null) {
-            File savesDir = new File(gameDir, "saves");
-            String worldName = Minecraft.getInstance().getSingleplayerServer().getWorldData().getLevelName();
-            File worldDir = new File(savesDir, worldName);
-            File serverConfigDir = new File(worldDir, SERVER_CONFIG_PATH);
 
-            if (!serverConfigDir.exists()) {
-                serverConfigDir.mkdirs();
-            }
+        Object serverInstance = ServerLifecycleHooks.getCurrentServer();
+        boolean isMultiplayer;
 
-            File marketItemsFile = new File(serverConfigDir, MARKET_ITEMS_FILE);
-
-            if (!marketItemsFile.exists()) {
-                generateJSON(marketItemsFile);
-                grabServerconfigValues();
-            }
-            return marketItemsFile;
+        if (serverInstance instanceof DedicatedServer) {
+            isMultiplayer = true;
+        } else if (serverInstance instanceof IntegratedServer) {
+            isMultiplayer = false;
+        } else {
+            isMultiplayer = false;
         }
-        return null;
+
+        File serverConfigDir;
+        if (isMultiplayer) {
+            String gameDir = ((DedicatedServer) serverInstance).getLevelIdName();
+            serverConfigDir = new File(gameDir, SERVER_CONFIG_PATH);
+            return new File(serverConfigDir, MARKET_ITEMS_FILE);
+        } else {
+            IntegratedServer integratedServer = Minecraft.getInstance().getSingleplayerServer();
+            if (integratedServer == null || integratedServer.getWorldData() == null) {
+                File gameDir = Minecraft.getInstance().gameDirectory;
+                serverConfigDir = new File(gameDir, SERVER_CONFIG_PATH);
+            } else {
+                String worldName = integratedServer.getWorldData().getLevelName();
+                File gameDir = Minecraft.getInstance().gameDirectory;
+                File savesDir = new File(gameDir, "saves");
+                File worldDir = new File(savesDir, worldName);
+                serverConfigDir = new File(worldDir, SERVER_CONFIG_PATH);
+            }
+        }
+
+        if (!serverConfigDir.exists()) {
+            serverConfigDir.mkdirs();
+        }
+
+        File marketItemsFile = new File(serverConfigDir, MARKET_ITEMS_FILE);
+
+        if (!marketItemsFile.exists()) {
+            generateJSON(marketItemsFile);
+            grabServerconfigValues();
+        }
+        return marketItemsFile;
     }
 
     private static void generateJSON(File jsonFile) {
@@ -77,6 +103,8 @@ public class ServConfDatagen {
     }
     private static void grabServerconfigValues() {
         System.out.println("Handling serverconfig init values");
+        ForgeConfigSpec.ConfigValue<List<? extends String>> marketItemsConfigValue = Serverconfig.marketItemsList;
+        List<? extends String> marketItemsList = marketItemsConfigValue.get();
     }
 
     public static List<MarketItemList> loadMarketItems() {
@@ -89,6 +117,7 @@ public class ServConfDatagen {
                 e.printStackTrace();
             }
         }
+        System.out.println("Handling json init values");
         return null;
     }
 
