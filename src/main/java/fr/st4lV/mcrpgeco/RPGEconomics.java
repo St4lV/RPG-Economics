@@ -1,19 +1,6 @@
 package fr.st4lV.mcrpgeco;
 
-//import net.minecraft.world.level.Ser
 import fr.st4lV.mcrpgeco.config.ServConfDatagen;
-import fr.st4lV.mcrpgeco.core.MarketItem;
-import fr.st4lV.mcrpgeco.screen.BlockbergTerminalScreen;
-import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerPlayerConnection;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.common.ForgeConfig;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -42,59 +29,42 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
+import java.io.IOException;
+
 import static fr.st4lV.mcrpgeco.config.Serverconfig.SERVERCONFIG;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(RPGEconomics.MODID)
-public class RPGEconomics
-{
-    // Define mod id in a common place for everything to reference
+public class RPGEconomics {
     public static final String MODID = "mcrpgeco";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     private Inventory Config;
 
-    public RPGEconomics()
-    {
+    public RPGEconomics() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModCreativeModTabs.register(modEventBus);
-
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVERCONFIG);
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
-
         ModVillagers.register(modEventBus);
-
         ModLootModifiers.register(modEventBus);
-        
-        // Register the commonSetup method for modloading
+
         modEventBus.addListener(this::commonSetup);
-
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-
-        // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
-
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        // ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
-
-    }
+    private void commonSetup(final FMLCommonSetupEvent event) {}
 
     private static void setup(FMLCommonSetupEvent event) {
-
         fr.st4lV.mcrpgeco.config.Serverconfig.registerConfig();
-
     }
+
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-
             event.accept(ModItems.PURSE);
             event.accept(ModItems.BRONZE_COIN);
             event.accept(ModItems.SILVER_COIN);
@@ -108,38 +78,35 @@ public class RPGEconomics
         }
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
         LOGGER.info("HELLO from server starting");
 
         ServConfDatagen.getMarketItemsFile();
         fr.st4lV.mcrpgeco.config.Serverconfig.initConfig();
 
-        MarketItem marketItem = MarketItem.getInstance();
-        //MarketItem.getInstance().updateValues("",50000,512,85,16);
         MarketCalculs marketCalculs = MarketCalculs.getInstance();
-
-        marketCalculs.initValue(marketItem);
-        marketCalculs.updateMarketValues();
+        try {
+            int maxId = GrabJson.getMaxId();
+            marketCalculs.initValuesForRange(1, maxId);
+            marketCalculs.updateMarketValues();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ServConfDatagen.getValuesToJSON();
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
-
+    public static class ClientModEvents {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            // Some client setup code
+        public static void onClientSetup(FMLClientSetupEvent event) {
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getUuid());
         }
     }
+}
+
     /*@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class PlayerEvents {
 
@@ -186,4 +153,4 @@ public class RPGEconomics
             }
         }
     }*/
-}
+

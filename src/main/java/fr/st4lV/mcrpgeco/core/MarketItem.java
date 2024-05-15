@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class MarketItem {
     private String itemData,itemMod,item,itemType;
-    private int price, qMax,qStartRatio,qStock;
+    private int price, qMax,qStartRatio,qStock, itemId;
     int MaxPage = 10;
 
     /*if (((int)Qentries/6) < ((double)Qentries/6)) {
@@ -25,21 +25,22 @@ public class MarketItem {
         return instance;
     }
 
-    public void StringValues(Map<String, Integer> itemDataMap, Map<String, String> itemTypes) {
-        for (Map.Entry<String, Integer> entry : itemDataMap.entrySet()) {
-            String itemGrab = entry.getKey();
-            int priceGrab = entry.getValue();
+    public void StringValues(Map<Integer, String> itemIdMap, Map<String, Integer> itemDataMap, Map<String, String> itemTypes) {
+        for (Map.Entry<Integer, String> entry : itemIdMap.entrySet()) {
+            int itemId = entry.getKey();
+            String itemGrab = entry.getValue();
+            int priceGrab = itemDataMap.getOrDefault(itemGrab, 0);
             int qMaxGrab = 0;
             int qStartRatioGrab = 0;
             int qStockGrab = 0;
 
             String stockType = itemTypes.getOrDefault(itemGrab, "");
 
-            updateValues(itemGrab, priceGrab, qMaxGrab, qStartRatioGrab, qStockGrab, stockType);
+            updateValues(itemId, itemGrab, priceGrab, qMaxGrab, qStartRatioGrab, qStockGrab, stockType);
         }
     }
 
-    public void updateValues(String itemGrab, int priceGrab, int qMaxGrab, int qStartRatioGrab, int qStockGrab, String stockType) {
+    public void updateValues(int itemId, String itemGrab, int priceGrab, int qMaxGrab, int qStartRatioGrab, int qStockGrab, String stockType) {
         // Split the itemGrab string into two parts based on ":"
         String[] parts = itemGrab.split(":");
         if (parts.length >= 2) {
@@ -54,6 +55,7 @@ public class MarketItem {
         }
 
         // Update other values
+        this.itemId = itemId;
         this.price = priceGrab;
         this.qMax = qMaxGrab;
         this.qStartRatio = qStartRatioGrab;
@@ -62,9 +64,14 @@ public class MarketItem {
     }
 
 
+    public int getItemId() { return itemId; }
 
-    public String getItemData() {
+    public String getItemData(int getItemId) {
+        if (this.itemId == itemId) {
         return itemData;
+        } else {
+            return null;
+        }
     }
     public String getItemMod() {
         return itemMod;

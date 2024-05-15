@@ -41,10 +41,10 @@ public class Serverconfig {
         marketItemsList = builder
                 .comment("List of market items in the format: mod:item,Price,qMax,qStartRatio,qStock,type.")
                 .define("marketItemsList", Arrays.asList(
-                        "minecraft:iron_ingot,25000,512,85,48,item",
-                        "minecraft:copper_ingot,25000,512,85,64,item",
-                        "minecraft:gold_ingot,330000,512,85,48,item",
-                        "minecraft:ancient_debris,250000,512,85,1,item"
+                        "minecraft:iron_ingot,25000,512,2,48,item",
+                        "minecraft:copper_ingot,25000,512,2,64,item",
+                        "minecraft:gold_ingot,330000,512,2,48,item",
+                        "minecraft:ancient_debris,250000,0,85,1,item"
                 ));
 
         autoActiveMarket = builder
@@ -70,7 +70,7 @@ public class Serverconfig {
             }
         }
         //ServConfDatagen.getValuesToJSON(2,"minecraft:gold_ingot", 25000, 512, 85, 16);
-        MarketItem.getInstance().updateValues("minecraft:iron_block", 50000, 512, 85, 16, "block");
-        //MarketItem.getInstance().updateValues("minecraft:copper_ingot",25000,512,85,16, "item");
+        MarketItem.getInstance().updateValues(1,"minecraft:iron_block", 50000, 512, 85, 16, "block");
+        MarketItem.getInstance().updateValues(2, "minecraft:copper_ingot",25000,512,85,16, "item");
     }
 }

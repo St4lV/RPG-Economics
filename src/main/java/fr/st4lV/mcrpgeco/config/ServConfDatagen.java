@@ -35,7 +35,7 @@ public class ServConfDatagen {
             public String itemType;
 
             public Values() {
-                this.itemData = MarketItem.getInstance().getItemData();
+                this.itemData = MarketItem.getInstance().getItemData(MarketItem.getInstance().getItemId());
                 this.price = MarketItem.getInstance().getPrice();
                 this.qMax = MarketItem.getInstance().getQMax();
                 this.qStartRatio = MarketItem.getInstance().getQStartRatio();
